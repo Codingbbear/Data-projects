@@ -16,10 +16,10 @@ To avoid problems when performing joins across tables and to also understand you
 ### 2. Checking for Correct Data Types
 To avoid having incorrect values in the wrong column, formatting a column to only accept a specific type of data can be done which will return "error" when an incorrect entry is punched in. 
 ### 3. Standardization
-Sifting through the data and making sure that the table is readable and does not contain redundant values making it ready for further analysis. 
+Making sure that the columns across the table follows same naming conventions or data formats. 
 ### 4. Dealing with null values
-Deciding whether to omit or flag null values depending on the need/questions of the business. 
+Deciding whether to omit/impute, and/or flag null values depending on the need/questions of the business. 
 ### 5. Producing analysis ready file    
-The final step
+The final step before analyzing the data.
 # Note: 
 Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. For SQL, they will be included in the end of the SQL file. 
