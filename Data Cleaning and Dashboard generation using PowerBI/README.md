@@ -21,3 +21,5 @@ Sifting through the data and making sure that the table is readable and does not
 Deciding whether to omit or flag null values depending on the need/questions of the business. 
 ### 5. Producing analysis ready file    
 The final step
+# Note: 
+Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. For SQL, they will be included in the end of the SQL file. 
