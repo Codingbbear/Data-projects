@@ -1,3 +1,4 @@
 # Data-projects
-Data analytics projects that will involve cleaning, reporting and maybe in the future automating once i learn more about this field. 
-The first project will be about cleaning a table of 10000 rows and generate meaningful report and insights about it. 
+ Data analytics projects that will involve cleaning, reporting and maybe in the future automating once i learn more about this field. 
+
+## Project 1: Cleaning dirty cafe sales and generating a dashboard using PowerBI
