@@ -10,7 +10,7 @@
 
   Before cleaning the data, I want to explain that version control was not available to me while working on this project nor did I know if it was necessary before working on one. But to be safe I mimicked a version control by making separate tables when a significant change was done to the preceding table. 
 
-The Data Cleaning will be done in a structured manner and will be done in a couple of steps. 
+The data cleaning was done using these steps specifically because of the data chosen. 
 ### 1. Understanding Granularity 
 To avoid problems when performing joins across tables and to also understand your data we need to understand what the grain represents. 
 ### 2. Checking for Correct Data Types
