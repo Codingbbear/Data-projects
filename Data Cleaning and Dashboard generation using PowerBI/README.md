@@ -12,7 +12,7 @@
 
 The data cleaning was done using these steps specifically because of the data chosen. 
 ### 1. Understanding Granularity 
-To avoid problems when performing joins across tables and to also understand your data we need to understand what the grain represents. 
+Before and after cleaning, it is important to understand the granularity of the table and whether it is consistent or not. 
 ### 2. Checking for Correct Data Types
 To avoid having incorrect values in the wrong column, formatting a column to only accept a specific type of data can be done which will return "error" when an incorrect entry is punched in. 
 ### 3. Standardization
