@@ -11,7 +11,7 @@
 
   Before cleaning the data, I want to explain that version control was not available to me while working on this project nor did I know if it was necessary before working on one. But to be safe I mimicked a version control by making separate tables when a significant change was done to the preceding table. 
 
-The data cleaning was done using these steps specifically because of the data chosen. 
+The data cleaning was done using these steps.
 ### 1. Understanding Granularity 
 Before and after cleaning before analyzing, it is important to understand the granularity of the table and whether it is consistent or not. 
 ### 2. Checking for Correct Data Types
