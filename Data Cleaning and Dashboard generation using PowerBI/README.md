@@ -14,15 +14,13 @@
 The data cleaning was done using these steps.
 ### 1. Understanding Granularity 
 Before and after cleaning before analyzing, it is important to understand the granularity of the table and whether it is consistent or not. 
-### 2. Checking for Correct Data Types 
-To avoid having incorrect values in the wrong column, formatting a column to only accept a specific type of data can be done which will return "error" when an incorrect entry is punched in. 
-### 3. Standardization and dealing with nulls 
-Making sure that the columns across the table follows same naming conventions or data formats and that nulls are dealt with.
-### 4. Imputation  
+### 2. Standardization of text and numeric values 
+Here format texts to a fixed casing and also casting the numerics to right data type if not already done by default. 
+### 3. Imputation  
 Missing values from some columns that can be imputed will be done so using conditional mean and not global to properly represent each item. 
-### 5. Making Total_Spent a computed column and adding an 'Issue' column 
+### 4. Making Total_Spent a computed column and adding an 'Issue' column 
 Removing remaining null values from Total_Spent column by putting a formula into it and adding an Issue column to flag remaining nulls for PowerBI.
-### 6. Producing a file ready for PowerBI    
+### 5. Producing a file ready for PowerBI    
 The final step before analyzing the data. 
 # Note: 
 Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. 
