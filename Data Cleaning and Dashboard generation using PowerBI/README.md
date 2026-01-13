@@ -20,7 +20,7 @@ To avoid having incorrect values in the wrong column, formatting a column to onl
 Making sure that the columns across the table follows same naming conventions or data formats and that nulls are dealt with.
 ### 4. Imputation  
 Missing values from some columns that can be imputed will be done so using conditional mean and not global to properly represent each item. 
-### 5. Overriding Total_Spent column and adding an 'Issue' column 
+### 5. Making Total_Spent a computed column and adding an 'Issue' column 
 Removing remaining null values from Total_Spent column by putting a formula into it and adding an Issue column to flag remaining nulls for PowerBI.
 ### 6. Producing a file ready for PowerBI    
 The final step before analyzing the data. 
