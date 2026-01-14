@@ -15,13 +15,13 @@ The data cleaning was done using these steps.
 ### 1. Understanding Granularity 
 Before and after cleaning before analyzing, it is important to understand the granularity of the table and whether it is consistent or not. 
 ### 2. Standardization of text and numeric values 
-Here format texts to a fixed casing and also casting the numerics to right data type if not already done by default. 
+Texts are given fixed casing and numerics are casted to the right data type based on what their columns represent. 
 ### 3. Imputation  (3 rounds)
-Missing numeric values will be carefully imputed with consideration to how they can skew the integrity of the data. 
+Missing numeric values will be carefully imputed and calculated with consideration to how they can skew the integrity of the data. And if they will affect integrity, then null. 
 ### 4. Adding an 'Issue' column 
 Adding an Issue column to flag remaining nulls for PowerBI.
-### 5. Producing a file ready for PowerBI    
-The final step before analyzing the data. 
+### 5. Producing 2 files ready for PowerBI    
+Usable file containing rows with only VALID values and Unusable with INVALID values. 
 # Note: 
 Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. 
 The full detailed break-down of the SQL data cleaning will be available in a pdf file. 
