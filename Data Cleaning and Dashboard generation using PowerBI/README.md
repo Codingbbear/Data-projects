@@ -5,8 +5,11 @@
   The said table was taken from [kaggle](https://www.kaggle.com/datasets/ahmedmohamed2003/cafe-sales-dirty-data-for-cleaning-training) and will be available for reproduction here along with the PowerBI dashboard. 
   A price_ref table is available here in the repo but will not be used and only serve as a mental lookup.
 
+  A note file will also be included to show the mental structure that was followed for the whole duration of data cleaning. 
+
 ***  
 # Data Cleaning with PowerBI
+Separate tables were made from preceding tables to compare how much progress is made each step of the way. These tables are not available in the repo since it already is in the query if you so choose to replicate this process. 
 
 The data cleaning was done using these steps.
 ### 1. Understanding Granularity 
