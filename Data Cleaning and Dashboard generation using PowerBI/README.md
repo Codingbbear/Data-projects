@@ -16,7 +16,7 @@ The data cleaning was done using these steps.
 Before and after cleaning before analyzing, it is important to understand the granularity of the table and whether it is consistent or not. 
 ### 2. Standardization of text and numeric values 
 Texts are given fixed casing and numerics are casted to the right data type based on what their columns represent. 
-### 3. Imputation  (3 rounds)
+### 3. Imputation and Calculations (3 rounds)
 Missing numeric values will be carefully imputed and calculated with consideration to how they can skew the integrity of the data. And if they will affect integrity, then null. 
 ### 4. Adding an 'Issue' column 
 Adding an Issue column to flag remaining nulls for PowerBI.
