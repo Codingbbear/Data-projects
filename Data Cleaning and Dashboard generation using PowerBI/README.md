@@ -18,7 +18,7 @@ Before and after cleaning before analyzing, it is important to understand the gr
 Texts are given fixed casing and numerics are casted to the right data type based on what their columns represent. 
 ### 3. Imputation and Calculations (3 rounds)
 Missing numeric values will be carefully imputed and calculated with consideration to how they can skew the integrity of the data. And if they will affect integrity, then null. 
-### 4. Adding an 'Issue' column 
+### 4. Adding an 'Issue' column and re-validating grain before moving on to powerBI
 Adding an Issue column to flag remaining nulls for PowerBI.
 ### 5. Producing 2 files ready for PowerBI    
 Usable file containing rows with only VALID values and Unusable with INVALID values. 
