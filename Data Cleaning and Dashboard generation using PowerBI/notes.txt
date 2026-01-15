@@ -1,0 +1,98 @@
+-- 1. Grain 
+	***To avoid row explosions, inaccurate aggregations and all sorts of problems we encountered before, we must validate grain.  
+
+		-- pick a primary key, check for duplicates and see if that key exists in 1:1 ratio with respect to other columns like item or quantity 
+		-- TEST aggregate like sum of quantity when quantity is not null VS. sum of quantities from distinct transID and other columns 
+                				    ** if the above gives no rows then we good ** 
+
+-- 2. Standardization 
+	**** Standardization rules 
+	-- NULLING redundant values that represent the same thing like ERROR and UNKN0WN and if the NULL is entered as 'NULL' then include that too. 
+	-- also trim those string values
+	-- I didnt check the table for <=0 values but we'll just check for them cuz whats the harm
+	-- after checking for negative and 0 values we then cast to appropriate type like decimal (10,2) for price and total spent and smallint for Quantity
+	-- for date, just cast it if it's null
+	-- make standardizedV file for the next step
+
+-- 3. 3-round calculations and imputations (initially thought it would only take 2 rounds)
+	**StandardizedV has:  
+	-- 533 rows where PPU IS NULL --(DOWN TO 54 AFTER imputesV3) 
+	**** this can still brought down but not necessary anymore since we are only worried about the total sales
+   					and quantity for our analysis ****
+
+	**** These 2 columns in between was left with same amount of nulls which makes sense ****
+				-- 502 TotalSpent NULL-- (DOWN TO 23 AFTER imputesV3) 
+				-- 479 Quantity NULL --(DOWN TO 23 AFTER imputesV3)
+	**** Since they are closely tied to each other in the calculations from the queries ****
+
+				-- 969 ITEM Nulls --(DOWN TO 501 AFTER imputesv3)
+
+	**** To manage nulls in both item and ppu
+
+					 item  	        ppu
+					------------|------
+					COOKIE		1
+					SANDWICH	4
+					SALAD		5
+					CAKE		3
+					COFFEE		1
+					JUICE		3
+					TEA		1.5
+					SMOOTHIE	4
+
+	This table will serve as a lookup but just mentally.
+
+	**** if the scenario is like this:
+
+		ITEM NULL AND PPU IS NOT NULL 
+			OR
+		PPU IS NULL AND ITEM IS NOT NULL
+			THEN
+
+	We can do a case or a join whatever works better and achieves the desired result faster
+
+		-- so 2 joins worked fine and also a CTE 
+		turns out we didnt need the price_ref table just a CTE is fine (reflect this in the repo)
+
+		so imputations after this will now take 3 steps since we cant coalesce columns with values from a column that does not yet exist. 
+
+	***1st 
+		--price and item names will be imputed (proper and complete price values needed for step 2 will come from this) 
+ 		-- Make an imputesV1 file
+
+	***2nd (from imputesV1)
+		-- quantity is calculated not imputed  Using Totalspent / price
+		-- Total spent is also calculated using price*quantity 
+		-- because of this we might need to impute a 3rd time for total spent (yup i was right)
+		-- Make an imputesV2 file
+
+	***3rd (from imputesv2)
+		-- this was needed because by the time we got to imputesV2, total_spent column still has some nulls because some of the values that it's supposed 
+		-- to take, does not yet exist from the previous table and would only be aggregated after the 2nd part. 
+
+		-- here we just calculate this column and see if it solves all the quantity nulls if the name is NOT NULL and also get rid of totalspent nulls
+		-- Quantity also has some nulls so we just run another calculation on that column
+		-- Make an imputesV3 file	
+	REMEMBER:
+	DO NOT IMPUTE NAMES IF THE PRICE IS AMBIGUOUS big nono 
+	LEAVE THEM NULL (we dont wanna invent item names and quantities with ambiguous prices.)
+
+-- 4. Adding an ISSUE column
+	
+	(From imputesV3)
+	-- we just added a new column with case to return 'VALID' based on the arguments defined in the SQL
+ 	-- make a new file (almostready)
+-- 4.1 Validating 
+	Validate if the remaining nulls are so because theyre not safe to impute or we missed them and also the grain whether it retained the 1:1 ratio or not
+	
+--5 . File for PowerBI 
+	(from almostready)
+	**** make 2 files for better measuring and mapping 
+		-- 1. For VALID rows name it USABLE
+		-- 2. For != VALID rows name it UNUSABLE 
+	
+
+
+
+
+ 
