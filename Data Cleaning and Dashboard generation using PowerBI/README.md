@@ -24,7 +24,7 @@ Missing numeric values will be carefully imputed and calculated with considerati
 ### 4. Adding an 'Issue' column and re-validating grain before moving on to powerBI
 Adding an Issue column to flag remaining nulls for PowerBI.
 ### 5. Producing 2 files ready for PowerBI    
-Usable file containing rows with only VALID values and Unusable with INVALID values. 
+Usable.csv file containing rows with only VALID values and Unusable.csv with INVALID values. 
 # Note: 
 
 Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. 
