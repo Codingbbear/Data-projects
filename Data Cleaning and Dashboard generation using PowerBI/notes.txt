@@ -56,17 +56,17 @@
 
 		so imputations after this will now take 3 steps since we cant coalesce columns with values from a column that does not yet exist. 
 
-	***1st 
+	***1st round (from StandardizedV)
 		--price and item names will be imputed (proper and complete price values needed for step 2 will come from this) 
  		-- Make an imputesV1 file
 
-	***2nd (from imputesV1)
+	***2nd round (from imputesV1)
 		-- quantity is calculated not imputed  Using Totalspent / price
 		-- Total spent is also calculated using price*quantity 
 		-- because of this we might need to impute a 3rd time for total spent (yup i was right)
 		-- Make an imputesV2 file
 
-	***3rd (from imputesv2)
+	***3rd round (from imputesv2)
 		-- this was needed because by the time we got to imputesV2, total_spent column still has some nulls because some of the values that it's supposed 
 		-- to take, does not yet exist from the previous table and would only be aggregated after the 2nd part. 
 
@@ -91,6 +91,7 @@
 		-- 1. For VALID rows name it USABLE
 		-- 2. For != VALID rows name it UNUSABLE 
 	
+
 
 
 
