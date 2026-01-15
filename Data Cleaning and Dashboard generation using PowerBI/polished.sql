@@ -70,7 +70,7 @@
                     'NULL'),
                   'UNKNOWN'),
               'ERROR')) AS Location,
--- 2.2 NUMERICS (still subject to change) -- 
+-- 2.2 NUMERICS -- 
         -- numerics are checked for having negative and 0 values and casted to appropriate type -- 
         -- PPU -- 
             CASE 
@@ -316,3 +316,4 @@
 
 
    
+
