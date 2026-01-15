@@ -54,9 +54,7 @@ The data cleaning was done in different stages.
 - Usable.csv file containing rows with only VALID values
 - Unusable.csv with INVALID values.
 
-***
 
-Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. 
 
 
 
