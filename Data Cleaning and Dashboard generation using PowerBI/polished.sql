@@ -2,9 +2,9 @@
         SELECT 
             Transaction_ID,
             COUNT(*) AS RowCnt
-        FROM                        -- 0 duplicates -- 
+        FROM                        -- 0 row means 0 duplicates here -- 
             dirty_cafe_sales        -- hypothesis is that TransID values are all unique and can be used to validate the grain -- 
-        GROUP BY 
+        GROUP BY                  
             Transaction_ID
         HAVING 
             COUNT(*) > 1
@@ -21,10 +21,10 @@
         SELECT 
             SUM(Quantity) as sumq 
         FROM 
-            dirty_cafe_sales 
+            dirty_cafe_sales   
         WHERE 
             Quantity IS NOT NULL
--- 1.2.1 -- both there queries above and below returns the same sum of 28834 which means no rows contain duplicated quantity -- 
+-- 1.2.1 -- both there queries above and below returns the same sum of 28834 which means no rows contain duplicated quantity from the starting table -- 
         SELECT 
             SUM(Quantity) as sumq 
         FROM 
@@ -45,6 +45,7 @@
         SELECT 
             Transaction_ID,
 -- 2.1 NONE NUMERICS (USED UPPER TOO cuz why not) --
+      -- None numerics are trimmed and nulled to remove redundancies -- 
         -- Item --
             UPPER(NULLIF
                 (NULLIF
@@ -70,6 +71,7 @@
                   'UNKNOWN'),
               'ERROR')) AS Location,
 -- 2.2 NUMERICS (still subject to change) -- 
+        -- numerics are checked for having negative and 0 values and casted to appropriate type -- 
         -- PPU -- 
             CASE 
                 WHEN Price_Per_Unit <= 0 THEN NULL
@@ -83,7 +85,7 @@
         -- Quantity -- 
             CASE
                 WHEN Quantity <= 0 THEN NULL
-                ELSE CAST(Quantity AS tinyint) 
+                ELSE CAST(Quantity AS smallint) 
             END AS Quantity,
 
         -- DATE --
@@ -97,7 +99,8 @@
             dirty_cafe_sales 
 
 -- 3. 3-round Imputations and calculations -- 
--- 3.1 1st round of imputations -- 
+                
+        -- 3.1 1st round of imputations -- 
 
         WITH 
         PriceItemRef AS (
@@ -143,7 +146,7 @@
             PriceItemRef AS avc
         ON a.item = avc.Item 
 
--- 3.2 2nd round of imputations -- 
+        -- 3.2 2nd round of imputations -- 
 
         WITH ItemFix AS (
              SELECT 
@@ -179,8 +182,8 @@
                ItemFix AS b
         ON 
             a.item = b.item
--- 3.3 3rd and hopefully final round (it is)
-
+                
+        -- 3.3 3rd and hopefully final round (it is)
         SELECT 
             Transaction_ID,
             Item,
@@ -217,7 +220,8 @@
             END AS Issue
         INTO almostready
         FROM imputesV3
--- 4.1 Validating the results and the grain of the cleaned table 
+                
+        -- 4.1 Validating the results and the grain of the cleaned table 
         SELECT 
             Transaction_ID,
             COUNT(*) AS RowCnt
@@ -227,15 +231,15 @@
             Transaction_ID
         HAVING 
             COUNT(*) > 1
--- 4.2 checking for correct aggregation-- 
+                
+        -- 4.2 checking for correct aggregation-- 
         SELECT 
             SUM(Quantity) as sumq 
         FROM 
             almostready             -- 30180 -- 
         WHERE 
             Quantity IS NOT NULL
--- 4.2.1 
--- both there queries above and below returns the same sum of 30180 which means grain of 1:1 was retained throughout the cleaning -- 
+        -- both there queries above and below returns the same sum of 30180 which means grain of 1:1 was retained throughout the cleaning -- 
         SELECT 
             SUM(Quantity) as sumq 
         FROM 
@@ -258,7 +262,7 @@
         WHERE 
             Issue = 'USABLE'
 
--- 5.2 Copy for INVALID rows
+-- 5.2 Making a copy for INVALID rows
         SELECT 
             *
         INTO Unusable
@@ -268,38 +272,46 @@
             Issue != 'USABLE'
 
 -- This manages to preserve 10000 rows out of 10000 -- 
--- checking for nulls thas still there --
-
--- note that there are still  521 unknowns in item name but was not omitted due to the sales made --
+-- Note that there are still  521 unknowns in item name and was not omitted due to the sales made and other important metrics the rows contain--
 
 -- SOME QnA 
--- 1. number of orders, quantity bought, and revenue made for each item --
-      -- this also tells which is the best selling products -- 
+-- 1. total number of orders, quantity bought, and revenue made for each item --
+      -- this also tells which is the all-time best selling product -- 
         SELECT 
             Item,
-            COUNT(*) AS count, 
+            COUNT(*) AS orders, 
             SUM(Quantity) AS SumQ,
             SUM(Total_Sale ) AS SumTS
         FROM 
-            almostready 
+            almostready                                 
         GROUP BY 
             Item
         ORDER BY 
             SumTS 
         DESC
+        -- This gives us this table 
+                Item                                               orders      SumQ        SumTS
+                -------------------------------------------------- ----------- ----------- ---------------------------------------
+                SALAD                                              1270        3815        19075.00
+                SANDWICH                                           1131        3429        13716.00
+                SMOOTHIE                                           1096        3336        13344.00
+                JUICE                                              1171        3505        10515.00
+                CAKE                                               1139        3468        10404.00
+                COFFEE                                             1284        3878        7756.00
+                TEA                                                1199        3622        5433.00
+                NULL                                               501         1542        5268.00
+                COOKIE                                             1209        3585        3585.00
 
--- 2. sales made from unknown items (this gives $5268.00 which is why NULL Items were not omitted if they had sales values) --
+-- 2. Sales made from unknown items (this gives $5268.00 which is why NULL Items were not omitted if they had sales values) --
 
         SELECT SUM(Total_Sale) AS SUMtsnull
         FROM almostready 
         WHERE Item IS NULL
 
--- 3. 
-    SELECT 
-        DATEDIFF(Transction_ID, 
-    FROM almostready
+-- much more complex questions like sales made each month will be answered in powerBI -- 
 -- With that, we move on to analysis -- 
 -- note that there still are nulls in the table but will be filtered further in PowerBI --
+
 
 
 
