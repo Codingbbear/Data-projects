@@ -57,6 +57,6 @@ The data cleaning was done in different stages.
 ***
 
 Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. 
-The full detailed break-down of the SQL data cleaning will be available in a pdf file. 
+
 
 
