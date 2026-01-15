@@ -1,6 +1,6 @@
 # Data Cleaning and Dashboard generation using PowerBI
 # Overview
-  This project's main goal is showcase data cleaning, , grain validation, standardizing, and safe imputations or calculations of columns using a table that mirrors real-world dirty transactional table which would then be used in PowerBI to produce insights and a dashboard that will include key KPIs about the business given the available data. 
+  This project's main goal is showcase data cleaning, grain validation, standardizing, and safe imputations or calculations of columns using a table that mirrors real-world dirty transactional table which would then be used in PowerBI to produce insights and a dashboard that will include key KPIs about the business given the available data. 
 
 ### The table
    The table (dirty_cafe_sales.csv) came from Kaggle and was chosen because of how it mirrors how dirty real-world datasets can be. It consists of intentional missing values, inconsistent data, and errors. Later in the project after the data cleaning, the resulting cleaned table will be used to create a dashboard using PowerBI and draw insights from it. 
