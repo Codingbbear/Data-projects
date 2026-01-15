@@ -9,23 +9,52 @@
   A price_ref table is available here in the repo but will not be used and only serve as a mental lookup.
 
   A .txt file will also be included to show the mental structure that was followed for the whole duration of data cleaning. 
-
+***
+# Tools Used 
+### 1. SQL Server
+### 2. PowerBI
+### 3. Github for documentation
+### 4. Notepad for the .txt file
 ***  
 # Data Cleaning with SQL Server
 Separate tables were made from preceding tables to compare how much progress is made each step of the way. These tables are not available in the repo since it already is in the query which you can create in your own database if you so choose to replicate this process. 
 
 The data cleaning was done in different stages.
-### 1. Understanding Granularity 
-Before and after cleaning, it is important to understand the granularity of the table and whether it is consistent or not. 
+### 1. Understanding Granularity and Pre-cleaning 
+- Before and after cleaning, it is important to understand the granularity of the table and whether it is consistent or not.
+- Checked that both Transaction_ID and Quantity columns have no duplicates. 
+- Checked for proper aggregation to check the grain.
+- Checked for mispellings.
 ### 2. Standardization of text and numeric values 
-Texts are given fixed casing and numerics are casted to the right data type based on what their columns represent. 
+### Strings/text
+- Trimmed trailing and leading spaces.
+- normalized UPPER casing.
+- Nulled redundant placeholders that represent the same value like ERROR and UNKNOWN.
+### Numerics
+- Nulled negative and 0 values and CASTed to appropriate type.
+- CASTed Quantity to smallint and Price and Total_Spent to DECIMAL with a precision of 10 and scale of 2 
 ### 3. Imputation and Calculations (3 rounds)
-Missing numeric values will be carefully imputed and calculated with consideration to how they can skew the integrity of the data. And if they will affect integrity, then null. 
+### 1st round 
+- made a PriceItemRef CTE to return ONLY the items with non-ambiguous prices.
+- used this CTE to coalesce missing item names with matching non-ambiguous prices.
+### 2nd round 
+- made an ItemFix CTE to return ONLY the items with ambiguous prices.
+- used said CTE to safely coalesce prices that has the same names.
+- names with ambiguous prices are left null intentionally to retain integrity.
+- calculated the Quantity column to prepare for Total_Spent in the next round.
+- Quantity was not imputed to retain integrity.
+### 3rd round 
+- Total Spent is calculated if both Quantity and Price are not null.
+- Remaining price and Quantity nulls are calculated.
+#### No Quantity was invented and remaining ambiguous values were kept. 
 ### 4. Adding an 'Issue' column and re-validating grain before moving on to powerBI
-Adding an Issue column to flag remaining nulls for PowerBI and also re-validating the grain's consistency.
+- Adding an Issue column to flag remaining nulls for PowerBI
+- Re-validated the grain's consistency.
 ### 5. Producing 2 files ready for PowerBI    
-Usable.csv file containing rows with only VALID values and Unusable.csv with INVALID values. 
-# Note: 
+- Usable.csv file containing rows with only VALID values
+- Unusable.csv with INVALID values.
+
+***
 
 Common business questions that I could think of will be answered via both SQL and PowerBI dashboard. 
 The full detailed break-down of the SQL data cleaning will be available in a pdf file. 
