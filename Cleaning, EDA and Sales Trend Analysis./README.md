@@ -109,12 +109,12 @@ Builds on Phase 2 by integrating real-world weather data via the [Open-Meteo Arc
 
 **Dependencies:**
 ```
-pandas, numpy, matplotlib, seaborn, scipy, statsmodels, requests
+pandas, numpy, matplotlib, seaborn, scipy, requests
 ```
 
 Install with:
 ```bash
-pip install pandas numpy matplotlib seaborn scipy statsmodels requests
+pip install pandas numpy matplotlib seaborn scipy requests
 ```
 
 **Weather data:** This project uses the Open-Meteo Archive API (free, no key required). The historical endpoint is periodically unavailable — check [https://status.open-meteo.com/](https://status.open-meteo.com/) before running Phase 3. If unavailable, [Meteostat](https://meteostat.net/) is a reliable free alternative covering the same date ranges and locations.
