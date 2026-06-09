@@ -3,7 +3,7 @@
 
 **Author:** Carl Mark Sibal  
 **Tools:** Python, Pandas, NumPy, Matplotlib, Seaborn, SciPy, Statsmodels, Requests, Power BI  
-**Data Sources:** [Balaji Fast Food Sales](https://www.kaggle.com/) & [Dirty Café Sales](https://www.kaggle.com/) — both from Kaggle (synthetic)
+**Data Sources:** [Balaji Fast Food Sales](https://www.kaggle.com/datasets/rajatsurana979/fast-food-sales-report) & [Dirty Café Sales](https://www.kaggle.com/datasets/ahmedmohamed2003/cafe-sales-dirty-data-for-cleaning-training) — both from Kaggle (synthetic)
 
 ---
 
