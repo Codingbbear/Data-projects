@@ -1,4 +1,3 @@
-
 # Restaurant & Café Sales Trend Analysis
 
 **Author:** Carl Mark Sibal  
@@ -9,19 +8,19 @@
 
 ## Overview
 
-A full-cycle data analysis project comparing sales patterns between two food businesses: a fast food restaurant in Mumbai, India and a café in Toronto, Canada. Using two synthetic Kaggle datasets, the project moves through data cleaning, exploratory analysis, and external data integration (weather + cultural festivities) to produce concrete, localized business recommendations for each store.
+A full-cycle data analysis project comparing sales patterns between two food businesses: a fast food restaurant in Mumbai, India and a café in Toronto, Canada. Using two synthetic Kaggle datasets, the project moves through data cleaning, exploratory analysis, external data integration (weather + cultural festivities), and interactive BI dashboard development to produce concrete, localized business recommendations for each store.
 
-The project is structured across four phases, three of which are implemented in Python/Jupyter and one in Power BI.
+The project is structured across four phases, three implemented in Python/Jupyter and one in Power BI.
 
 ---
 
 ## Project Structure
 
 ```
-├── P1_Cleaning.ipynb       # Phase 1 — Data cleaning & imputation
-├── P2_EDA.ipynb            # Phase 2 — Exploratory data analysis
-├── P3_WnFA.ipynb           # Phase 3 — Weather & festivities analysis
-└── (Phase 4)               # Power BI dashboard — see dashboard file
+├── P1_Cleaning.ipynb           # Phase 1 — Data cleaning & imputation
+├── P2_EDA.ipynb                # Phase 2 — Exploratory data analysis
+├── P3_WnFA.ipynb               # Phase 3 — Weather & festivities analysis
+└── Restaurant_Cafe_Sales.pbix  # Phase 4 — Power BI dashboard
 ```
 
 ---
@@ -64,7 +63,6 @@ Explores revenue trends, item performance, and seasonal patterns across both bus
 - **Revenue is price-driven, not demand-driven** — item quantities are roughly equal across all menu items in both stores, meaning price point is the primary differentiator in revenue performance
 - **Both businesses share a mid-year dip (Q2–Q3)** — suggesting external factors such as weather or seasonality influence customer behaviour regardless of geography
 - **Cultural festivities matter** — the restaurant's Q4 spike aligns closely with the Diwali period, suggesting foot traffic is culturally driven in the Indian market
-- **Item pairing potential identified** — with basket analysis ruled out due to single-item transactions, Phase 3 investigates whether items with similar revenue patterns can be grouped into combo promotions
 
 **Visualizations produced:** Monthly revenue trends, revenue and volume per item, quarterly performance breakdown.
 
@@ -86,8 +84,8 @@ Builds on Phase 2 by integrating real-world weather data via the [Open-Meteo Arc
 - Temperature shows no statistically significant correlation with daily revenue (r = -0.041, p = 0.449)
 - Moderate rain days show the highest median daily revenue — customers are not deterred by weather
 - **Pre-Diwali weeks outperform Diwali itself** — customers frontload spending in the lead-up rather than dining out during the festival, contradicting the original hypothesis
-
-*Café (Toronto):*
+- **Item pairing potential identified** — with basket analysis ruled out due to single-item transactions.
+*Cafe (Toronto):*
 - Temperature shows no statistically significant correlation with daily revenue (r = -0.025, p = 0.631)
 - Revenue is consistent across all weather conditions including snow — indicative of a loyal, repeat customer base
 - Day-of-week analysis confirms no single day significantly outperforms others (range: 209–227 CAD median)
@@ -102,6 +100,66 @@ Builds on Phase 2 by integrating real-world weather data via the [Open-Meteo Arc
 | Café | Bundle 2 | Sandwich + Tea |
 
 **Business recommendations:** Targeted pre-Diwali marketing campaigns for the restaurant; loyalty programs and new menu exploration for the café given its stable customer base.
+
+---
+
+### Phase 4 — Power BI Dashboard
+
+Translates all prior analysis into an interactive Power BI dashboard designed for non-technical business stakeholders. The dashboard spans three pages and covers revenue performance, weather impact, and time-based trends across both stores. All monetary comparisons between Balaji (INR) and the Toronto Café (CAD) are kept independent throughout — no cross-currency aggregation is performed at any point.
+
+#### Data Model
+
+Four CSVs exported from Phase 3 were loaded into Power BI:
+
+| Table | Description |
+|---|---|
+| `balaji_sales` | Transaction-level data for Balaji Fast Food |
+| `balaji_daily` | Daily aggregates including weather data for Balaji |
+| `cafe_sales` | Transaction-level data for Toronto Café |
+| `cafe_daily` | Daily aggregates including weather data for Toronto Café |
+
+Two One-to-Many relationships were manually created in Model View:
+
+- `balaji_daily[date]` → `balaji_sales[date]`
+- `cafe_daily[date]` → `cafe_sales[date]`
+
+#### DAX Measures
+
+```DAX
+Total Revenue Balaji = SUM(balaji_sales[Total_amount])
+Avg Order Value Balaji = AVERAGE(balaji_sales[Total_amount])
+Total Transactions Balaji = COUNTROWS(balaji_sales)
+
+Total Revenue Cafe = SUM(cafe_sales[Price])
+Avg Order Value Cafe = AVERAGE(cafe_sales[Price])
+Total Transactions Cafe = COUNTROWS(cafe_sales)
+
+Avg Daily Revenue Balaji = AVERAGE(balaji_daily[Daily_revenue])
+Avg Daily Revenue Cafe = AVERAGE(cafe_daily[Daily_revenue])
+```
+
+Calculated column added to `balaji_daily` for day-of-week analysis:
+
+```DAX
+day_of_week = FORMAT(balaji_daily[date], "dddd")
+```
+
+#### Dashboard Pages
+
+**Page 1 — Revenue Overview**  
+High-level performance snapshot for both stores. Six KPI cards display Total Revenue, Average Order Value, and Total Transactions for each store side by side. Time series charts show revenue trends across the full date range.
+
+**Page 2 — Time Trends**  
+Examines revenue behaviour across time dimensions — by month, day of week, and week number — for both stores independently.
+
+**Page 3 — Weather & Revenue**  
+Tests whether weather drives revenue for either store. Scatter charts plot daily temperature against daily revenue; column charts show average revenue by weather condition. A key finding callout anchors the page conclusion for stakeholders.
+
+#### Key Findings
+
+- **Weather is not a meaningful revenue driver for either store.** Balaji revenue shows no directional relationship with temperature across a 25–40°C range. Toronto Café revenue remains flat across all conditions from -20°C to 30°C, including snow. Average revenue by weather condition sits within a narrow band for both stores.
+- **Pre-Diwali weeks outperform Diwali itself for Balaji.** Revenue peaks in the weeks leading up to Diwali, not on the festival date — suggesting customers frontload festive spending in advance. This has direct implications for promotional timing and inventory planning.
+- **Toronto Café revenue is flat and consistent year-round.** No seasonal pattern, weather sensitivity, or weekly cycle drives meaningful variation. Performance stability points to a loyal, habitual customer base rather than an event or season-driven one.
 
 ---
 
@@ -131,9 +189,3 @@ pip install pandas numpy matplotlib seaborn scipy requests
 | Dirty Café Sales | Kaggle | CAD | 2023 | ~10,000 |
 
 Both datasets are synthetic. Toronto and Mumbai were selected as proxy cities to provide real-world weather and cultural context.
-
----
-
-## Phase 4 — Power BI Dashboard
-
-An interactive dashboard summarizing key metrics and insights from Phases 1–3. Intended for stakeholder reporting. *(Dashboard file to be added.)*
