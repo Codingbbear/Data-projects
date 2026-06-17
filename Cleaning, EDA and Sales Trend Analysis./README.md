@@ -105,7 +105,7 @@ Builds on Phase 2 by integrating real-world weather data via the [Open-Meteo Arc
 
 ### Phase 4 — Power BI Dashboard
 
-Translates all prior analysis into an interactive Power BI dashboard designed for non-technical business stakeholders. The dashboard spans three pages and covers revenue performance, weather impact, and time-based trends across both stores. All monetary comparisons between Balaji (INR) and the Toronto Café (CAD) are kept independent throughout — no cross-currency aggregation is performed at any point.
+Translates all prior analysis into an interactive Power BI dashboard designed for non-technical business stakeholders.  All monetary comparisons between Balaji (INR) and the Toronto Café (CAD) are kept independent throughout — no cross-currency aggregation is performed at any point.
 
 #### Data Model
 
@@ -143,17 +143,6 @@ Calculated column added to `balaji_daily` for day-of-week analysis:
 ```DAX
 day_of_week = FORMAT(balaji_daily[date], "dddd")
 ```
-
-#### Dashboard Pages
-
-**Page 1 — Revenue Overview**  
-High-level performance snapshot for both stores. Six KPI cards display Total Revenue, Average Order Value, and Total Transactions for each store side by side. Time series charts show revenue trends across the full date range.
-
-**Page 2 — Time Trends**  
-Examines revenue behaviour across time dimensions — by month, day of week, and week number — for both stores independently.
-
-**Page 3 — Weather & Revenue**  
-Tests whether weather drives revenue for either store. Scatter charts plot daily temperature against daily revenue; column charts show average revenue by weather condition. A key finding callout anchors the page conclusion for stakeholders.
 
 #### Key Findings
 
